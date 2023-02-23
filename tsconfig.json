@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/getProduct.js", "models/users.js", "models/product.js", "models/order.js", "pages/middleware/mongooes.js"],
   "exclude": ["node_modules"]
 }

@@ -35,7 +35,6 @@ export async function getServerSideProps(context) {
       await mongoose.connect(process.env.MONGO_URI)
     }
   let products= await product.find({category:"tshirt"})
-  console.log(products)
  
   return {
     props: {products:JSON.parse(JSON.stringify(products))}, // will be passed to the page component as props

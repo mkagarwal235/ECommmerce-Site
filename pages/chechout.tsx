@@ -72,7 +72,7 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
             return <li key={k}>
               <div className="item flex my-4">
 
-                <div className='font-semibold'>{card[k].name}</div>
+                <div className='font-semibold'>{card[k].name}({card[k].size}/{card[k].variant})</div>
                 <div className='flex items-center justify-center w-1/3 font-semibold text-lg'><AiFillMinusCircle onClick={() => { removeFromCard(k, 1, card[k].price, card[k].name, card[k].size, card[k].variant) }} className='cursor-pointer text-pink-500' />
                   <span className='mx-2 
                             text-sm'>{card[k].qty}</span><AiFillPlusCircle onClick={() => { addToCard(k, 1, card[k].price, card[k].name, card[k].size, card[k].variant) }} className='cursor-pointer text-pink-500' /></div>

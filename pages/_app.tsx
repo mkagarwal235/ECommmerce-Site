@@ -2,11 +2,13 @@ import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
+import { useRouter } from 'next/router'
 import { useState,useEffect} from 'react'
 
 function App({ Component, pageProps }: AppProps) {
   const [card, setCard] = useState({})
   const [subTotal, setSubTotal] = useState(0)
+  const router=useRouter()
   useEffect(() => {
     console.log("hey i am use Effect")
     try{
@@ -48,6 +50,15 @@ function App({ Component, pageProps }: AppProps) {
     setCard(newCard)
     saveCard(newCard)
   }
+  const buyNow=(itemCode,qty,price,name,size,variant)=>{
+    let newCard={itemCode:{qty:1,price,name,size,variant}}
+
+    setCard(newCard)
+    saveCard(newCard)
+    router.push('/chechout')
+
+
+  }
   const clearCard=()=>{
     setCard({})
     saveCard({})
@@ -70,7 +81,7 @@ function App({ Component, pageProps }: AppProps) {
   }
   return <>
   <Navbar key={subTotal} card={card} addToCard={addToCard} removeFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal}/>
-  <Component card={card} addToCard={addToCard} removrFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal} {...pageProps}/>
+  <Component buyNow={buyNow} card={card} addToCard={addToCard} removrFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal} {...pageProps}/>
   <Footer/>
   </>
 }

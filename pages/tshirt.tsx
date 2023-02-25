@@ -27,10 +27,10 @@ const Tshirt = ({ products }) => {
                   <div className='mt-1'>
                   {products[item].color.includes('RED') && <button className="border-2 border-gray-300 ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none"></button>}
                   {products[item].color.includes('YELLOW') && <button className="border-2 border-gray-300 ml-1 bg-yellow-700 rounded-full w-6 h-6 focus:outline-none"></button>}
-                  {products[item].color.includes('BLACK') && <button className="border-2 border-gray-300 ml-1 bg-black-700 rounded-full w-6 h-6 focus:outline-none"></button>}
+                  {products[item].color.includes('BLACK') && <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>}
                   {products[item].color.includes('GREEN') && <button className="border-2 border-gray-300 ml-1 bg-green-700 rounded-full w-6 h-6 focus:outline-none"></button>}
                   {products[item].color.includes('PURPLE') && <button className="border-2 border-gray-300 ml-1 bg-purple-700 rounded-full w-6 h-6 focus:outline-none"></button>}
-                  {products[item].color.includes('BLUE') && <button className="border-2 border-gray-300 ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none"></button>}
+                  {products[item].color.includes('BLUE') && <button className="border-2 border-gray-300 ml-1 bg-blue-700 rounded-full w-6 h-6 focus:outline-none"></button>}
                   </div>
               </div>
             </div>

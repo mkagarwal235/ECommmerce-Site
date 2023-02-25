@@ -26,6 +26,12 @@ const Post = ({addToCard,products,variants}) => {
   const [color, setColor] = useState(products.color)
   const [size, setSize] = useState(products.size)
 
+  const refreshvariant = (newSize,newColor)=>{
+    let url=`http://localhost:3000/product/${variants[newColor][newSize]['slug']}`
+    window.location=url;
+
+  }
+
   return <><section className="text-gray-600 body-font overflow-hidden">
   <div className="container px-5 py-16 mx-auto">
     <div className="lg:w-4/5 mx-auto flex flex-wrap">
@@ -74,23 +80,23 @@ const Post = ({addToCard,products,variants}) => {
         <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
           <div className="flex">
             <span className="mr-3">Color</span>
-            {Object.keys(variants).includes('WHITE') && Object.keys(variants['WHITE']).includes(size) && <button className={`border-2  rounded-full w-6 h-6 focus:outline-none ${color==='WHITE'?'border-black':'border-gray-300'}`}></button>}
-            {Object.keys(variants).includes('RED') && Object.keys(variants['RED']).includes(size) && <button className={`border-2  ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none ${color==='RED'?'border-black':'border-gray-300'}`}></button>}
-            {Object.keys(variants).includes('GREEN') && Object.keys(variants['GREEN']).includes(size) && <button className={`border-2  ml-1 bg-green-500 rounded-full w-6 h-6 focus:outline-none ${color==='GREEN'?'border-black':'border-gray-300'}`}></button>}
-            {Object.keys(variants).includes('BLACK') && Object.keys(variants['BLACK']).includes(size) && <button className={`border-2  ml-1 bg-black-500 rounded-full w-6 h-6 focus:outline-none ${color==='BLACK'?'border-black':'border-gray-300'}`}></button>}
-            {Object.keys(variants).includes('PURPLE') && Object.keys(variants['PURPLE']).includes(size) && <button className={`border-2  ml-1 bg-purple-500 rounded-full w-6 h-6 focus:outline-none ${color==='PURPLE'?'border-black':'border-gray-300'}`}></button>}
-            {Object.keys(variants).includes('BLUE') && Object.keys(variants['BLUE']).includes(size) && <button className={`border-2  ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color==='BLUE'?'border-black':'border-gray-300'}`}></button>}
-            {Object.keys(variants).includes('YELLOW') && Object.keys(variants['YELLOW']).includes(size) && <button className={`border-2  ml-1 bg-yellow-500 rounded-full w-6 h-6 focus:outline-none ${color==='YELLOW'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('WHITE') && Object.keys(variants['WHITE']).includes(size) && <button onClick={()=>{refreshvariant(size,'WHITE')}} className={`border-2  rounded-full w-6 h-6 focus:outline-none ${color==='WHITE'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('RED') && Object.keys(variants['RED']).includes(size) && <button onClick={()=>{refreshvariant(size,'RED')}} className={`border-2  ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none ${color==='RED'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('GREEN') && Object.keys(variants['GREEN']).includes(size) && <button onClick={()=>{refreshvariant(size,'GREEN')}} className={`border-2  ml-1 bg-green-500 rounded-full w-6 h-6 focus:outline-none ${color==='GREEN'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('BLACK') && Object.keys(variants['BLACK']).includes(size) && <button onClick={()=>{refreshvariant(size,'BLACK')}} className={`border-2  ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${color==='BLACK'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('PURPLE') && Object.keys(variants['PURPLE']).includes(size) && <button onClick={()=>{refreshvariant(size,'PURPLE')}} className={`border-2  ml-1 bg-purple-500 rounded-full w-6 h-6 focus:outline-none ${color==='PURPLE'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('BLUE') && Object.keys(variants['BLUE']).includes(size) && <button onClick={()=>{refreshvariant(size,'BLUE')}} className={`border-2  ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color==='BLUE'?'border-black':'border-gray-300'}`}></button>}
+            {Object.keys(variants).includes('YELLOW') && Object.keys(variants['YELLOW']).includes(size) && <button onClick={()=>{refreshvariant(size,'YELLOW')}} className={`border-2  ml-1 bg-yellow-500 rounded-full w-6 h-6 focus:outline-none ${color==='YELLOW'?'border-black':'border-gray-300'}`}></button>}
           </div>
           <div className="flex ml-6 items-center">
             <span className="mr-3">Size</span>
             <div className="relative">
-              <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none  focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-                <option>XXL</option>
+              <select value={size} onChange={(e)=>{refreshvariant(e.target.value,color)}} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none  focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
+                {Object.keys(variants[color]).includes('S') && <option value={'S'}>S</option>}
+                {Object.keys(variants[color]).includes('M') && <option value={'M'}>M</option>}
+                {Object.keys(variants[color]).includes('L') && <option value={'L'}>L</option>}
+                {Object.keys(variants[color]).includes('XL') && <option value={'XL'}>XL</option>}
+                {Object.keys(variants[color]).includes('XXL') && <option value={'XXL'}>XXL</option>}
               </select>
               <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4" viewBox="0 0 24 24">

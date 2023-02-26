@@ -92,11 +92,15 @@ const Post = ({ addToCard, products, variants, buyNow }) => {
                 <span className="mr-3">Size</span>
                 <div className="relative">
                   <select value={size} onChange={(e) => { refreshvariant(e.target.value, color) }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none  focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
+                    {Object.keys(variants[color]).includes('STANDARD') && <option value={'STANDARD'}>STANDARD</option>}
+                    {Object.keys(variants[color]).includes('PREMIUM') && <option value={'PREMIUM'}>PREMIUM</option>}
+                    {Object.keys(variants[color]).includes('L') && <option value={'L'}>L</option>}
                     {Object.keys(variants[color]).includes('S') && <option value={'S'}>S</option>}
                     {Object.keys(variants[color]).includes('M') && <option value={'M'}>M</option>}
-                    {Object.keys(variants[color]).includes('L') && <option value={'L'}>L</option>}
                     {Object.keys(variants[color]).includes('XL') && <option value={'XL'}>XL</option>}
                     {Object.keys(variants[color]).includes('XXL') && <option value={'XXL'}>XXL</option>}
+                    {Object.keys(variants[color]).includes('10cm') && <option value={'10cm'}>10cm</option>}
+                    {Object.keys(variants[color]).includes('7cm') && <option value={'7cm'}>7cm</option>}
                   </select>
                   <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4" viewBox="0 0 24 24">

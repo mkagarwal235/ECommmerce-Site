@@ -19,11 +19,8 @@ const Mugs = ({ products }) => {
                 <h2 className="text-gray-900 title-font text-lg font-medium">{products[item].title}</h2>
                 <p className="mt-1">₹{products[item].price}</p>
                 <div className='mt-1'>
-                  {products[item].size.includes('S') && <span className='border border-gray-300 px-1 mx-1'>S,</span>} 
-                  {products[item].size.includes('M') && <span className='border border-gray-300 px-1 mx-1'>M,</span>}
-                  {products[item].size.includes('L') && <span className='border border-gray-300 px-1 mx-1'>L,</span>}
-                  {products[item].size.includes('XL') && <span className='border border-gray-300 px-1 mx-1'> XL,</span>} 
-                  {products[item].size.includes('XXL') && <span className='border border-gray-300 px-1 mx-1'>XXL,</span>} 
+                  {products[item].size.includes('STANDARD') && <span className='border border-gray-300 px-1 mx-1'>STANDARD,</span>} 
+                  {products[item].size.includes('PREMIUM') && <span className='border border-gray-300 px-1 mx-1'>PREMIUM,</span>}    
                   </div>
                   <div className='mt-1'>
                   {products[item].color.includes('RED') && <button className="border-2 border-gray-300 ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none"></button>}

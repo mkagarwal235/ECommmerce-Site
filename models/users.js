@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
     email: {type:String,require:true,unique:true},
     password: {type:String,require:true}
 },{timestamps:true});
-mongoose.models={}
 
-export default mongoose.model("product",UserSchema);
+// mongoose.models={}
+
+export default mongoose.models.users || mongoose.model("users",UserSchema);

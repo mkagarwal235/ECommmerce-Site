@@ -1,6 +1,7 @@
 import user from "@/models/users";
 import connectDB from "../middleware/mongooes";
 var CryptoJS = require("crypto-js");
+var jwt = require('jsonwebtoken');
 const handler = async (req, res) => {
     if (req.method == 'POST') {
         console.log(req.body)
@@ -10,7 +11,8 @@ const handler = async (req, res) => {
         if (users) {
 
             if (req.body.email == users.email && req.body.password == decryptedPass) {
-                res.status(200).json({ success: true, email: users.email, name: users.name })
+                var token = jwt.sign({email: users.email, name: users.name }, 'jwtsecret', {expiresIn: '2d'} );
+                res.status(200).json({success: true,token})
 
             }
             else {

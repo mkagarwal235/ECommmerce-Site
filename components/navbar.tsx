@@ -5,8 +5,11 @@ import { useRef } from 'react';
 import { AiOutlineShoppingCart, AiFillCloseCircle, AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 import { MdAccountCircle } from 'react-icons/md'
+import { useState } from 'react';
 
-const Navbar = ({ card, addToCard, removeFromCard, clearCard, subTotal }) => {
+const Navbar = ({user,logout ,card, addToCard, removeFromCard, clearCard, subTotal }) => {
+    const [dropdown, setdropdown] = useState(false)
+ 
     console.log(card, addToCard, removeFromCard, clearCard, subTotal)
     const toggleCard = () => {
         if (ref.current.classList.contains('translate-x-full')) {
@@ -22,7 +25,7 @@ const Navbar = ({ card, addToCard, removeFromCard, clearCard, subTotal }) => {
     const ref = useRef();
     return (
         <div className="flex flex-col md:flex-row md:justify-start justify-center items-center py-2 mb-1 shadow-md sticky top-0 bg-white z-10">
-            <div className="logo mx-5">
+            <div className="logo mr-auto md:mx-5">
                 <Link href={"/"}><Image src="/logo.png" alt="" width={200} height={40} /></Link>
             </div>
             <div className="nav">
@@ -33,10 +36,22 @@ const Navbar = ({ card, addToCard, removeFromCard, clearCard, subTotal }) => {
                     <Link href={"/mug"}><li className='hover:text-pink-500'>Mugs</li></Link>
                 </ul>
             </div>
-            <div className="card absolute right-0 mx-5 top-4 cursor-pointer flex">
-                <Link href={'/login'}><MdAccountCircle className='md:text-3xl text-xl mx-2' /></Link>
+            <div className="card absolute items-center right-0 mx-5 top-3 cursor-pointer flex">
+                <a onMouseOver={()=>setdropdown(true)} onMouseLeave={()=>setdropdown(false)}>
+           {dropdown && <div onMouseOver={()=>setdropdown(true)} onMouseLeave={()=>setdropdown(false)} className="absolute right-8 bg-pink-300 top-7 py-5 rounded-md px-5 w-32">
+                <ul>
+                    <a><li className='py-1 text-sm hover:text-pink-700 font-bold'>My Account</li></a>
+                  <Link href={'/orders'}> <li className='py-1 text-sm hover:text-pink-700 font-bold'>Orders</li></Link>
+                  <li onClick={logout} className='py-1 text-sm hover:text-pink-700 font-bold'>Logout</li>
+                </ul>
+            </div>}
+            {user.value && <MdAccountCircle  className='md:text-3xl text-xl mx-2' />}</a>
+                {!user.value && <Link href={'/login'}>
+                    <button className='bg-pink-600 px-2 py-2 rounded-md text-sm text-white mx-2'>Login</button>
+                    </Link>}
                 <AiOutlineShoppingCart onClick={toggleCard} className='md:text-3xl text-xl' />
             </div>
+          
 
             <div ref={ref} className={`w-72 h-[100vh] sideCard overflow-y-scroll absolute top-0 right-0 bg-pink-100 py-10 px-8 transform transition-transform ${Object.keys(card).length !== 0 ? 'translate-x-0' : 'translate-x-full'}`}>
                 <h2 className='font-bold text-xl text-center'>Shopping Card</h2>

@@ -9,6 +9,8 @@ function App({ Component, pageProps }: AppProps) {
   const [card, setCard] = useState({})
   const [subTotal, setSubTotal] = useState(0)
   const router=useRouter()
+  const [user, setUser] = useState({value:null})
+  const [key, setkey] = useState(0)
   useEffect(() => {
     console.log("hey i am use Effect")
     try{
@@ -25,7 +27,20 @@ function App({ Component, pageProps }: AppProps) {
     console.error(error);
     localStorage.clear();
   }
-  }, [])
+  const token=localStorage.getItem('token')
+  if(token)
+  {
+    setUser({value : token})
+    setkey(Math.random())
+  }
+  }, [router.query])
+
+  const logout=()=>
+  {
+      localStorage.removeItem('token')
+      setkey(Math.random())
+      setUser({value:null})
+  }
   
   const saveCard=(myCard)=>
   {
@@ -80,7 +95,7 @@ function App({ Component, pageProps }: AppProps) {
     saveCard(newCard)
   }
   return <>
-  <Navbar key={subTotal} card={card} addToCard={addToCard} removeFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal}/>
+  <Navbar logout={logout} user={user} key={key} card={card} addToCard={addToCard} removeFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal}/>
   <Component buyNow={buyNow} card={card} addToCard={addToCard} removrFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal} {...pageProps}/>
   <Footer/>
   </>

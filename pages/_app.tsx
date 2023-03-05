@@ -4,6 +4,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useState,useEffect} from 'react'
+import LoadingBar from 'react-top-loading-bar'
 
 function App({ Component, pageProps }: AppProps) {
   const [card, setCard] = useState({})
@@ -11,7 +12,15 @@ function App({ Component, pageProps }: AppProps) {
   const router=useRouter()
   const [user, setUser] = useState({value:null})
   const [key, setkey] = useState(0)
+  const [progress, setProgress] = useState(0)
+  
   useEffect(() => {
+    router.events.on('routeChangeStart', ()=>{
+      setProgress(40)
+    })
+    router.events.on('routeChangeComplete', ()=>{
+      setProgress(100)
+    })
     console.log("hey i am use Effect")
     try{
 
@@ -95,6 +104,12 @@ function App({ Component, pageProps }: AppProps) {
     saveCard(newCard)
   }
   return <>
+   <LoadingBar
+        color='#e74c3c'
+        progress={progress}
+        waitingTime={400}
+        onLoaderFinished={() => setProgress(0)}
+      />
   <Navbar logout={logout} user={user} key={key} card={card} addToCard={addToCard} removeFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal}/>
   <Component buyNow={buyNow} card={card} addToCard={addToCard} removrFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal} {...pageProps}/>
   <Footer/>

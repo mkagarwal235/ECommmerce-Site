@@ -1,6 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
-const Singup = () => {
+import {useEffect} from 'react'
+import { useRouter } from 'next/router';
+const Forgot = () => {
+  const router = useRouter()
+  useEffect(() => 
+  {
+    if(localStorage.getItem('token')){
+      router.push('/')
+    }
+  },[])
   return (
     <div><div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div className="w-full max-w-md space-y-8">
@@ -38,4 +47,4 @@ const Singup = () => {
   )
 }
 
-export default Singup
+export default Forgot

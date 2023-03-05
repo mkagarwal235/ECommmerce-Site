@@ -2,11 +2,20 @@ import React from 'react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
-
+import {useEffect} from 'react'
+import { useRouter } from 'next/router';
 const Singup = () => {
+  const router = useRouter()
   const [name, setname] = useState()
   const [email, setemail] = useState()
   const [password, setpassword] = useState()
+
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      router.push('/')
+    }
+    
+  }, [])
 
   const handleChange = (e) => {
     if (e.target.name == 'name') {

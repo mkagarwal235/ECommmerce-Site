@@ -6,9 +6,9 @@ import {useEffect} from 'react'
 import { useRouter } from 'next/router';
 const Singup = () => {
   const router = useRouter()
-  const [name, setname] = useState()
-  const [email, setemail] = useState()
-  const [password, setpassword] = useState()
+  const [name, setname] = useState('')
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
 
   useEffect(() => {
     if(localStorage.getItem('token')){
@@ -34,7 +34,7 @@ const Singup = () => {
     e.preventDefault()
     const data = { name, email, password };
 
-    let res = await fetch('http://localhost:3000/api/signup', {
+    let res = await fetch(`${process.env.HOST}/api/signup`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",

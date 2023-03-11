@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 import {useEffect} from 'react' 
 const Login = () => {
   const router = useRouter()
-  const [email, setemail] = useState()
-  const [password, setpassword] = useState()
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
 
   useEffect(() => {
     if(localStorage.getItem('token')){
@@ -31,7 +31,7 @@ const Login = () => {
     e.preventDefault()
     const data = { email, password };
 
-    let res = await fetch("http://localhost:3000/api/login", {
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const Login = () => {
       });
       setTimeout(() => {
 
-        router.push('http://localhost:3000')
+        router.push(process.env.NEXT_PUBLIC_HOST)
       }, 1000);
     }
     else {

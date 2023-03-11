@@ -11,7 +11,7 @@ function App({ Component, pageProps }: AppProps) {
   const [subTotal, setSubTotal] = useState(0)
   const router=useRouter()
   const [user, setUser] = useState({value:null})
-  const [key, setkey] = useState(0)
+  const [key, setkey] = useState()
   const [progress, setProgress] = useState(0)
   
   useEffect(() => {
@@ -49,6 +49,7 @@ function App({ Component, pageProps }: AppProps) {
       localStorage.removeItem('token')
       setkey(Math.random())
       setUser({value:null})
+      router.push('/')
   }
   
   const saveCard=(myCard)=>

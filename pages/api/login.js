@@ -6,12 +6,12 @@ const handler = async (req, res) => {
     if (req.method == 'POST') {
         console.log(req.body)
         let users = await user.findOne({ "email": req.body.email })
-        const bytes=CryptoJS.AES.decrypt(users.password,"secret123");
+        const bytes=CryptoJS.AES.decrypt(users.password,process.env.AES_SECRET);
         let decryptedPass=bytes.toString(CryptoJS.enc.Utf8);
         if (users) {
 
             if (req.body.email == users.email && req.body.password == decryptedPass) {
-                var token = jwt.sign({email: users.email, name: users.name }, 'jwtsecret', {expiresIn: '2d'} );
+                var token = jwt.sign({email: users.email, name: users.name }, process.env.JWT_SECRET, {expiresIn: '2d'} );
                 res.status(200).json({success: true,token})
 
             }

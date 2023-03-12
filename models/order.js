@@ -3,15 +3,14 @@ import mongoose from "mongoose";
 
 
 const OrderSchema = new mongoose.Schema({
-    userId: {type:String,require:true},
-    products:[{
-        productId:{type:String},
-        quantity:{type:Number,default:1},
-    }],
+    email: {type:String,require:true},
+    orderId: {type:String,require:true},
+    paymrntInfo: {type:String,default:''},
+    products:{type:Object,required:true},
     address:{type:String,require:true},
     amount:{type:Number,require:true},
     status:{type:String,default:'pending',require:true}
 },{timestamps:true});
-mongoose.models={}
+// mongoose.models={}
 
-export default mongoose.model("order",OrderSchema);
+export default mongoose.models.order || mongoose.model("order",OrderSchema);

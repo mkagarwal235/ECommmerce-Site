@@ -40,8 +40,8 @@ function App({ Component, pageProps }: AppProps) {
   if(token)
   {
     setUser({value : token})
-    setkey(Math.random())
   }
+  setkey(Math.random())
   }, [router.query])
 
   const logout=()=>
@@ -111,7 +111,7 @@ function App({ Component, pageProps }: AppProps) {
         waitingTime={400}
         onLoaderFinished={() => setProgress(0)}
       />
-  <Navbar logout={logout} user={user} key={key} card={card} addToCard={addToCard} removeFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal}/>
+  {key && <Navbar logout={logout} user={user} key={key} card={card} addToCard={addToCard} removeFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal}/>}
   <Component buyNow={buyNow} card={card} addToCard={addToCard} removrFromCard={removeFromCard} clearCard={clearCard} subTotal={subTotal} {...pageProps}/>
   <Footer/>
   </>

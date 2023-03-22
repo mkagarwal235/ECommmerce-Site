@@ -7,5 +7,12 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.status(200).json([234400,721302,110003,560017,834009])
+  let pincodes =
+  {
+    "721302":["Kharagpur","West Bengal"],
+    "110003":["Delhi","Delhi"],
+    "834009":["Ranchi","Jharkhand"],
+    "560017":["Bangalore","Karnataka"] 
+  }
+  res.status(200).json(pincodes)
 }

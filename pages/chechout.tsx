@@ -5,6 +5,8 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Script from 'next/script'
 import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
   const [name, setName] = useState('')
@@ -15,7 +17,7 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
   const [disabled, setDisabled] = useState(true)
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     if (e.target.name == 'name') {
       setName(e.target.value)
     }
@@ -27,6 +29,22 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
     }
     else if (e.target.name == 'pincode') {
       setPinCode(e.target.value)
+      if (e.target.value.length == 6) {
+        let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`)
+        let pinJson = await pins.json()
+        if (Object.keys(pinJson).includes(e.target.value)) {
+          setCity(pinJson[e.target.value][0])
+          setState(pinJson[e.target.value][1])
+        }
+        else {
+          setCity('')
+          setState('')
+        }
+      }
+      else {
+        setCity('')
+        setState('')
+      }
     }
     else if (e.target.name == 'address') {
       setAddress(e.target.value)
@@ -47,7 +65,7 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
 
     // Get Transaction Token
 
-    const data = { card, subTotal, oid, email: email, name,address,pincode,phone };
+    const data = { card, subTotal, oid, email: email, name, address, pincode, phone };
 
     let a = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`, {
       method: "POST", // or 'PUT'
@@ -56,10 +74,9 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
       },
       body: JSON.stringify(data),
     })
-    let txnToken = await a.json()
-    console.log(txnToken)
-
-    function onScriptLoad() {
+    let txnRes = await a.json()
+    let txnToken = txnRes.txnToken
+    if (txnToken.success) {
       var config = {
         "root": "",
         "flow": "DEFAULT",
@@ -85,9 +102,34 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
         console.log("error => ", error);
       });
     }
+    else {
+      toast.error(txnRes.error, {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
   }
   return (
     <div className='container px-2 sm:m-auto'>
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Head><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" /></Head>
       <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`} crossOrigin="anonymous" />
       <h1 className='font-bold text-3xl my-8 text-center'>CheckOut</h1>
@@ -137,13 +179,13 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
         <div className="px-2 w-1/2">
           <div className="mb-4">
             <label htmlFor="state" className="leading-7 text-sm text-gray-600">State</label>
-            <input type="text" id="state" value={state} name="state" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" readOnly={true}></input>
+            <input type="text" id="state" value={state} onChange={handleChange} name="state" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" ></input>
           </div>
         </div>
         <div className="px-2 w-1/2">
           <div className="mb-4">
             <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>
-            <input type="text" id="city" value={city} name="city" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" readOnly={true}></input>
+            <input type="text" id="city" onChange={handleChange} value={city} name="city" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" ></input>
 
           </div>
 

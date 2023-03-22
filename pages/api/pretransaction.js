@@ -1,7 +1,9 @@
 import { rejects } from 'assert';
 import { resolve } from 'path';
+import products from '@/models/product';
 import Order from "@/models/order";
 import connectDB from "../middleware/mongooes";
+import { it } from 'node:test';
 
 const https = require('https');
 
@@ -12,6 +14,23 @@ const handler = async (req, res) => {
     if (req.method == 'POST') {
 
         //  check if the card is tempered with----[pending]
+        let product, sumTotal=0;
+        let card=req.body.card;
+        for(let item in card)
+        {
+            sumTotal+=card[item].price*card[item].qty;
+            product= await products.findOne({slug:item})
+            if(product.price!=card[item].price)
+            {
+                res.status(200).json({success:false,"error":"The price of some items in your cart have changed.Please try again"})
+                return
+            }
+        }
+        if(sumTotal!= req.body.subTotal)
+        {
+            res.status(200).json({success:false,"error":"The price of some items in your cart have changed.Please try again"})
+            return
+        }
 
         // check if the cart items are out of stocks---[pending]
 
@@ -82,8 +101,10 @@ const handler = async (req, res) => {
                     });
 
                     post_res.on('end', function () {
-                        console.log('Response: ', response);
-                        resolve(response)
+                        // console.log('Response: ', response);
+                        let ress=JSON.parse(response).body
+                        ress.success=true
+                        resolve(ress)
                     });
                 });
 

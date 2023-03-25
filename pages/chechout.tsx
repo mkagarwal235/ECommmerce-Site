@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
+const Chechout = ({ card, addToCard, removeFromCard,clearCard, subTotal }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -103,6 +103,7 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal }) => {
       });
     }
     else {
+      clearCard();
       toast.error(txnRes.error, {
         position: "top-left",
         autoClose: 5000,

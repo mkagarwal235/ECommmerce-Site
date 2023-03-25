@@ -8,7 +8,13 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+<<<<<<< HEAD
 const Chechout = ({ card, addToCard, removeFromCard,clearCard, subTotal }) => {
+=======
+
+
+const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
+>>>>>>> paymentIntegration
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -67,33 +73,36 @@ const Chechout = ({ card, addToCard, removeFromCard,clearCard, subTotal }) => {
 
     const data = { card, subTotal, oid, email: email, name, address, pincode, phone };
 
-    let a = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`, {
-      method: "POST", // or 'PUT'
+  
+    let response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-    let txnRes = await a.json()
-    let txnToken = txnRes.txnToken
-    if (txnToken.success) {
-      var config = {
-        "root": "",
-        "flow": "DEFAULT",
-        "data": {
-          "orderId": oid, /* update order id */
-          "token": txnToken, /* update token value */
-          "tokenType": "TXN_TOKEN",
-          "amount": subTotal /* update amount */
+    let paymentData = await response.json();
+    if (paymentData.success) {
+      // create the options object for Razerpay payment
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: subTotal*100,
+        currency: 'INR',
+        // name: paymentData.name,
+        // description: paymentData.description,
+        // image: paymentData.image,
+        // order_id:  Math.floor(Math.random() * Date.now()),
+        handler: function (response) {
+          // code to handle payment response
+          console.log(response)
         },
-        "handler": {
-          "notifyMerchant": function (eventName, data) {
-            console.log("notifyMerchant handler function called");
-            console.log("eventName => ", eventName);
-            console.log("data => ", data);
-          }
+        prefill: {
+          name: name,
+          email: email,
+          phone: phone
         }
       };
+<<<<<<< HEAD
 
       window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
         // after successfully updating configuration, invoke JS Checkout
@@ -115,6 +124,27 @@ const Chechout = ({ card, addToCard, removeFromCard,clearCard, subTotal }) => {
         theme: "light",
       });
     }
+=======
+        // call the Razerpay function with options
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      } 
+      else {
+        // show error toast if transaction creation failed
+        clearCard();
+        // console.log(paymentData.error)
+        toast.error(paymentData.error, {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+>>>>>>> paymentIntegration
 
   }
   return (
@@ -132,7 +162,9 @@ const Chechout = ({ card, addToCard, removeFromCard,clearCard, subTotal }) => {
         theme="light"
       />
       <Head><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" /></Head>
-      <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`} crossOrigin="anonymous" />
+
+      <Script src="https://checkout.razorpay.com/v1/checkout.js"/>
+
       <h1 className='font-bold text-3xl my-8 text-center'>CheckOut</h1>
       <h2 className='fond-semibold text-xl'>1.Delivery Details</h2>
 

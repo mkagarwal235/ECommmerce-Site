@@ -76,7 +76,8 @@ function App({ Component, pageProps }: AppProps) {
     saveCard(newCard)
   }
   const buyNow=(itemCode,qty,price,name,size,variant)=>{
-    let newCard={itemCode:{qty:1,price,name,size,variant}}
+    let newCard={}
+    newCard[itemCode]={qty:1,price,name,size,variant}
 
     setCard(newCard)
     saveCard(newCard)

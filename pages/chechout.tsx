@@ -64,7 +64,7 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
       }
     }, 100);
   }
-  const initiatePayment = async () => {
+  const initiatePayment = async (req,res) => {
 
 
     let oid = Math.floor(Math.random() * Date.now());
@@ -88,10 +88,10 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: subTotal*100,
         currency: 'INR',
-        // name: paymentData.name,
-        // description: paymentData.description,
-        // image: paymentData.image,
-        // order_id:  Math.floor(Math.random() * Date.now()),
+        name: name,
+        // description: paymentData.products.desc,
+        // image: products.img,
+        order_id:  paymentData.orderId,
         handler: function (response) {
           // code to handle payment response
           console.log(response)

@@ -72,9 +72,9 @@ const Navbar = ({user,logout ,card, addToCard, removeFromCard, clearCard, subTot
                 </ol>
                 <div className="font-bold my-2">Subtotal:₹{subTotal}</div>
                 <div className="flex">
-                    <Link href={'/chechout'}><button className="flex  mr-2 text-white bg-pink-500 border-0 py-2 px-2 
+                    <Link href={'/chechout'}><button disabled={Object.keys(card).length === 0} className="disabled:bg-pink-300 flex  mr-2 text-white bg-pink-500 border-0 py-2 px-2 
                 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='m-1' />CheckOut</button></Link>
-                    <button onClick={clearCard} className="flex mr-2 text-white bg-pink-500 border-0 py-2 px-2 
+                    <button disabled={Object.keys(card).length === 0} onClick={clearCard} className="disabled:bg-pink-300 flex mr-2 text-white bg-pink-500 border-0 py-2 px-2 
                 focus:outline-none hover:bg-pink-600 rounded text-sm">Clear Cart</button></div>
 
             </div>

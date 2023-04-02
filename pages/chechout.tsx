@@ -165,8 +165,8 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
       <div className="mx-auto flex my-2">
         <div className="px-2 w-1/2">
           <div className="mb-4">
-            <label htmlFor="phone" className="leading-7 text-sm text-gray-600">Phone</label>
-            <input type="phone" onChange={handleChange} value={phone} id="phone" name="phone" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out/"></input>
+            <label htmlFor="phone" className="leading-7 text-sm text-gray-600">Phone Number</label>
+            <input type="phone" onChange={handleChange} value={phone} id="phone" name="phone" placeholder='Your 10 Digit Phone Number' className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out /"></input>
           </div>
 
         </div>
@@ -189,7 +189,7 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
         </div>
         <div className="px-2 w-1/2">
           <div className="mb-4">
-            <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>
+            <label htmlFor="city" className="leading-7 text-sm text-gray-600">District</label>
             <input type="text" id="city" onChange={handleChange} value={city} name="city" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" ></input>
 
           </div>

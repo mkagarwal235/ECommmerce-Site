@@ -1,22 +1,28 @@
 import product from '@/models/product';
 import mongoose from "mongoose";
+import Error from 'next/error'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-const Post = ({ addToCard, products, variants, buyNow }) => {
+
+
+const Post = ({ addToCard, products, variants, buyNow, error }) => {
   const router = useRouter()
   const { slug } = router.query
   const [pin, setPin] = useState()
   const [service, setService] = useState()
 
-  const [color, setColor] = useState(products.color)
-  const [size, setSize] = useState(products.size)
+  const [color, setColor] = useState()
+  const [size, setSize] = useState()
 
-  useEffect(() => {
-   setColor(products.color)
-   setSize(products.size)
+  useEffect(() => {  
+    if(!error)
+    {
+      setColor(products.color)
+      setSize(products.size)
+    }
   }, [router.query])
   
 
@@ -63,6 +69,9 @@ const Post = ({ addToCard, products, variants, buyNow }) => {
 
   }
 
+  if (error==404) {
+    return <Error statusCode={404} />
+  }
 
   return <>
     <section className="text-gray-600 body-font overflow-hidden">
@@ -101,15 +110,15 @@ const Post = ({ addToCard, products, variants, buyNow }) => {
                 <span className="mr-3">Size</span>
                 <div className="relative">
                   <select value={size} onChange={(e) => { refreshvariant(e.target.value, color) }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none  focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
-                    {Object.keys(variants[color]).includes('STANDARD') && <option value={'STANDARD'}>STANDARD</option>}
-                    {Object.keys(variants[color]).includes('PREMIUM') && <option value={'PREMIUM'}>PREMIUM</option>}
-                    {Object.keys(variants[color]).includes('L') && <option value={'L'}>L</option>}
-                    {Object.keys(variants[color]).includes('S') && <option value={'S'}>S</option>}
-                    {Object.keys(variants[color]).includes('M') && <option value={'M'}>M</option>}
-                    {Object.keys(variants[color]).includes('XL') && <option value={'XL'}>XL</option>}
-                    {Object.keys(variants[color]).includes('XXL') && <option value={'XXL'}>XXL</option>}
-                    {Object.keys(variants[color]).includes('10cm') && <option value={'10cm'}>10cm</option>}
-                    {Object.keys(variants[color]).includes('7cm') && <option value={'7cm'}>7cm</option>}
+                    {color && Object.keys(variants[color]).includes('STANDARD') && <option value={'STANDARD'}>STANDARD</option>}
+                    {color && Object.keys(variants[color]).includes('PREMIUM') && <option value={'PREMIUM'}>PREMIUM</option>}
+                    {color && Object.keys(variants[color]).includes('L') && <option value={'L'}>L</option>}
+                    {color && Object.keys(variants[color]).includes('S') && <option value={'S'}>S</option>}
+                    {color && Object.keys(variants[color]).includes('M') && <option value={'M'}>M</option>}
+                    {color && Object.keys(variants[color]).includes('XL') && <option value={'XL'}>XL</option>}
+                    {color && Object.keys(variants[color]).includes('XXL') && <option value={'XXL'}>XXL</option>}
+                    {color && Object.keys(variants[color]).includes('10cm') && <option value={'10cm'}>10cm</option>}
+                    {color && Object.keys(variants[color]).includes('7cm') && <option value={'7cm'}>7cm</option>}
                   </select>
                   <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4" viewBox="0 0 24 24">
@@ -120,9 +129,10 @@ const Post = ({ addToCard, products, variants, buyNow }) => {
               </div>
             </div>
             <div className="flex">
-              <span className="title-font font-medium text-2xl text-gray-900">₹{products.price}</span>
-              <button onClick={() => { buyNow(slug, 1, products.price, products.title, size, color) }} className="flex ml-8 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-pink-600 rounded">Buy Now</button>
-              <button onClick={() => { addToCard(slug, 1, products.price, products.title, size, color) }} className="flex ml-4 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-pink-600 rounded">Add to Card</button>
+              {products.availableQty>0 && <span className="title-font font-medium text-2xl text-gray-900">₹{products.price}</span>}
+              {products.availableQty<=0 && <span className="title-font font-medium text-2xl text-gray-900">Out of Stock!</span>}
+              <button disabled={products.availableQty<=0?true:false} onClick={() => { buyNow(slug, 1, products.price, products.title, size, color) }} className="flex ml-8 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-pink-600 rounded disabled:bg-pink-300">Buy Now</button>
+              <button disabled={products.availableQty<=0?true:false} onClick={() => { addToCard(slug, 1, products.price, products.title, size, color) }} className="flex ml-4 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-pink-600 rounded disabled:bg-pink-300">Add to Card</button>
     
 
             </div>
@@ -144,10 +154,17 @@ const Post = ({ addToCard, products, variants, buyNow }) => {
 }
 
 export async function getServerSideProps(context) {
+  let error=null;
   if (!mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URI)
   }
   let products = await product.findOne({ slug: context.query.slug })
+  if(products==null)
+  {
+    return {
+      props: {error: 404},
+    }
+  }
   let variants = await product.find({ title: products.title ,category:products.category})
   let colorSizeSlug = {}       //{red:{xl:{slug:'wear-the-code-xl'}}}
   for (let item of variants) {
@@ -164,7 +181,7 @@ export async function getServerSideProps(context) {
 
 
   return {
-    props: { products: JSON.parse(JSON.stringify(products)), variants: JSON.parse(JSON.stringify(colorSizeSlug)) }, // will be passed to the page component as props
+    props: {error:error,products: JSON.parse(JSON.stringify(products)), variants: JSON.parse(JSON.stringify(colorSizeSlug)) }, // will be passed to the page component as props
   }
 }
 

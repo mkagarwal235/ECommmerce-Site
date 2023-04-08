@@ -8,13 +8,9 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-<<<<<<< HEAD
-const Chechout = ({ card, addToCard, removeFromCard,clearCard, subTotal }) => {
-=======
 
 
 const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
->>>>>>> paymentIntegration
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -102,29 +98,6 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
           phone: phone
         }
       };
-<<<<<<< HEAD
-
-      window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
-        // after successfully updating configuration, invoke JS Checkout
-        window.Paytm.CheckoutJS.invoke();
-      }).catch(function onError(error) {
-        console.log("error => ", error);
-      });
-    }
-    else {
-      clearCard();
-      toast.error(txnRes.error, {
-        position: "top-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-=======
         // call the Razerpay function with options
         const rzp = new window.Razorpay(options);
         rzp.open();
@@ -144,7 +117,6 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard }) => {
           theme: "light",
         });
       }
->>>>>>> paymentIntegration
 
   }
   return (

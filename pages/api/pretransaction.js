@@ -27,11 +27,9 @@ const handler = async (req, res) => {
         {
             sumTotal+=card[item].price*card[item].qty;
             product= await products.findOne({slug:item})
-<<<<<<< HEAD
 
             // check if the cart items are out of stocks---[pending]
             
-=======
             
             // check if the cart items are out of stocks
             if(product.availableQty<card[item].qty)
@@ -40,7 +38,6 @@ const handler = async (req, res) => {
                 return
             }
 
->>>>>>> mk
             if(product.price!=card[item].price)
             {
                 res.status(200).json({success:false,"error":"The price of some items in your cart have changed.Please try again"})
@@ -53,12 +50,6 @@ const handler = async (req, res) => {
             return
         }
 
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
->>>>>>> mk
-=======
         // check if the details are valid 
         if(req.body.phone.length!==10 )
         {
@@ -70,7 +61,7 @@ const handler = async (req, res) => {
             res.status(200).json({success:false,"error":"Please enter your 6 digit pincode"})
             return
         }
->>>>>>> mk
+
 
         
         // Intiate a order Corresponding to this orderId 

@@ -109,7 +109,7 @@ const Post = ({ addToCard, products, variants, buyNow, error }) => {
               <div className="flex ml-6 items-center">
                 <span className="mr-3">Size</span>
                 <div className="relative">
-                  <select value={size} onChange={(e) => { refreshvariant(e.target.value, color) }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none  focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
+                  <select value={size} onChange={(e) => { refreshvariant(e.target.value, color) }} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none  focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-base pl-3 pr-10">
                     {color && Object.keys(variants[color]).includes('STANDARD') && <option value={'STANDARD'}>STANDARD</option>}
                     {color && Object.keys(variants[color]).includes('PREMIUM') && <option value={'PREMIUM'}>PREMIUM</option>}
                     {color && Object.keys(variants[color]).includes('L') && <option value={'L'}>L</option>}
@@ -131,15 +131,15 @@ const Post = ({ addToCard, products, variants, buyNow, error }) => {
             <div className="flex">
               {products.availableQty>0 && <span className="title-font font-medium text-2xl text-gray-900">₹{products.price}</span>}
               {products.availableQty<=0 && <span className="title-font font-medium text-2xl text-gray-900">Out of Stock!</span>}
-              <button disabled={products.availableQty<=0?true:false} onClick={() => { buyNow(slug, 1, products.price, products.title, size, color) }} className="flex ml-8 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-pink-600 rounded disabled:bg-pink-300">Buy Now</button>
-              <button disabled={products.availableQty<=0?true:false} onClick={() => { addToCard(slug, 1, products.price, products.title, size, color) }} className="flex ml-4 text-white bg-pink-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-pink-600 rounded disabled:bg-pink-300">Add to Card</button>
+              <button disabled={products.availableQty<=0?true:false} onClick={() => { buyNow(slug, 1, products.price, products.title, size, color) }} className="flex ml-8 text-white bg-blue-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-blue-600 rounded disabled:bg-blue-300">Buy Now</button>
+              <button disabled={products.availableQty<=0?true:false} onClick={() => { addToCard(slug, 1, products.price, products.title, size, color) }} className="flex ml-4 text-white bg-blue-500 border-0 py-2 md:px-6 focus:outline-none  hover:bg-blue-600 rounded disabled:bg-blue-300">Add to Card</button>
     
 
             </div>
 
             <div className="pin mt-6 flex space-x-2 text-sm">
               <input onChange={onChangePin} type="text" className='px-2 border-2 border-gray-400 rounded-md' placeholder='Enter Your pincode' />
-              <button onClick={checkServiceability} className='flex ml-14 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none  hover:bg-pink-600 rounded'>Check</button>
+              <button onClick={checkServiceability} className='flex ml-14 text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none  hover:bg-blue-600 rounded'>Check</button>
             </div>
             {(!service && service != null) && <div className='text-red-700 test-sm mt-3'>
               Sorry we dont deliver to this pincode yet.

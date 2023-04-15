@@ -12,7 +12,7 @@ const handler = async (req, res) => {
       });
 
       const payment = await razorpay.payments.fetch(razorpay_payment_id);
-      console.log(payment)
+      
 
       if (payment.status !='captured') {
         return res.status(400).json({ error: 'Payment not successful' });

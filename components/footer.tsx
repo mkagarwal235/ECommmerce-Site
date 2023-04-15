@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
           <Link href={"/"}>
-            <Image src="/logo.png" alt="" width={200} height={40} />
+            <Image src="/logo1.jpg" alt="" width={200} height={40} />
           </Link>
           <p className="mt-2 text-sm text-gray-500 px-4">Wear the &lt;Code/&gt;</p>
           <p className="text-sm text-gray-500 px-4">
@@ -69,7 +69,7 @@ const Footer = () => {
       </div>
       <div className="bg-gray-100">
         <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-          <p className="text-gray-500 text-sm text-center sm:text-left">© 2023 CodeWear.com —All Right Reserved
+          <p className="text-gray-500 text-sm text-center sm:text-left">© 2023 CodeFashion.com —All Right Reserved
 
           </p>
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">

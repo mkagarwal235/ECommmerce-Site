@@ -21,7 +21,6 @@ function App({ Component, pageProps }: AppProps) {
     router.events.on('routeChangeComplete', ()=>{
       setProgress(100)
     })
-    console.log("hey i am use Effect")
     try{
 
     
@@ -33,7 +32,6 @@ function App({ Component, pageProps }: AppProps) {
   }
   catch(error)
   {
-    console.error(error);
     localStorage.clear();
   }
   const token=localStorage.getItem('token')
@@ -64,6 +62,10 @@ function App({ Component, pageProps }: AppProps) {
     setSubTotal(subt)
   }
   const addToCard = (itemCode,qty,price,name,size,variant)=>{
+    if(Object.keys(card).length==0)
+    {
+      setkey(Math.random())
+    }
     let newCard=card;
     if(itemCode in card)
     {

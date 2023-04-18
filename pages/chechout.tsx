@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 import Link from 'next/link'
@@ -19,6 +19,32 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard}) => {
   const [disabled, setDisabled] = useState(true)
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
+  const [user, setuser] = useState({value: null})
+
+  useEffect(() => {
+    if (name.length > 3 && email.length > 3 && phone.length > 3 && pincode.length > 3 && address.length > 3) {
+      setDisabled(false)
+    }
+    else {
+      setDisabled(true)
+    }
+  }, [name, email,phone,pincode,address])
+
+
+  // useEffect(() => {
+  //   const user=JSON.parse(localStorage.getItem('user'))
+  //   console.log(user)
+  //   if (user && user.token) {
+  //     setuser(user)
+  //     setEmail(user.email)
+      
+  //   }
+  // }, [])
+
+
+
+
+
   const handleChange = async (e) => {
     if (e.target.name == 'name') {
       setName(e.target.value)
@@ -51,14 +77,6 @@ const Chechout = ({ card, addToCard, removeFromCard, subTotal,clearCard}) => {
     else if (e.target.name == 'address') {
       setAddress(e.target.value)
     }
-    setTimeout(() => {
-      if (name.length > 3 && email.length > 3 && phone.length > 3 && pincode.length > 3 && address.length > 3) {
-        setDisabled(false)
-      }
-      else {
-        setDisabled(true)
-      }
-    }, 100);
   }
   const initiatePayment = async (req,res) => {
 

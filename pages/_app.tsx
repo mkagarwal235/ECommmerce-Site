@@ -38,6 +38,7 @@ function App({ Component, pageProps }: AppProps) {
   if(token)
   {
     setUser({value : token})
+    // localStorage.setItem("user",JSON.stringify())
   }
   setkey(Math.random())
   }, [router.query])

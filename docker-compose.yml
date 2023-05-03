@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=mongodb://db:27017/myapp
+      - PORT=3000
+      - NEXT_PUBLIC_HOST=http://localhost:3000
+      - NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_pTAJDAQfX4MB2N
+      - NEXT_PUBLIC_RAZORPAY_KEY_SECRET=CPqrYRqs4l3dqAaTPRt8zK2J
+      - JWT_SECRET=jwtsecret
+      - AES_SECRET=secret123
+    command: yarn dev
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
